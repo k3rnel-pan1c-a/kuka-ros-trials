@@ -9,7 +9,7 @@ import os
 def generate_launch_description():
     package_path = get_package_share_path('kuka_trials')
     urdf_path = os.path.join(package_path, 'urdf', 'robot.xacro')
-    # ros_gz_bridge_config_path = os.path.join(package_path, 'config', 'ros_gz_bridge.yaml')
+    ros_gz_bridge_config_path = os.path.join(package_path, 'config', 'ros_gz_bridge.yaml')
     
     robot_description = ParameterValue(Command(['xacro ', urdf_path]), value_type=str)
 
@@ -24,11 +24,11 @@ def generate_launch_description():
         output='screen'
     )
 
-    # ros_gz_bridge = Node(
-    #     package='ros_gz_bridge',
-    #     executable='parameter_bridge',
-    #     parameters=[{'config_file': ros_gz_bridge_config_path}],
-    # )
+    ros_gz_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        parameters=[{'config_file': ros_gz_bridge_config_path}],
+    )
 
     spawn_entity = Node(
         package='ros_gz_sim',
@@ -42,4 +42,5 @@ def generate_launch_description():
         gz_sim_process,
         robot_state_publisher_node,
         spawn_entity,
+        ros_gz_bridge
     ])
