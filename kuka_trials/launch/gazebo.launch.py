@@ -8,7 +8,7 @@ import os
 
 def generate_launch_description():
     package_path = get_package_share_path('kuka_trials')
-    urdf_path = os.path.join(package_path, 'urdf', 'kr10r1420.xacro')
+    urdf_path = os.path.join(package_path, 'urdf', 'robot.xacro')
     # ros_gz_bridge_config_path = os.path.join(package_path, 'config', 'ros_gz_bridge.yaml')
     
     robot_description = ParameterValue(Command(['xacro ', urdf_path]), value_type=str)

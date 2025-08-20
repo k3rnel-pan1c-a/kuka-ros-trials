@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <robot name="kuka_kr10r1420" xmlns:xacro="http://wiki.ros.org/xacro">
   <xacro:include filename="kr10r1420_macro.xacro" />
+  <xacro:include filename="scancontrol_26x0_29x0_25_macro.xacro"/>
+  <xacro:microepsilon_scancontrol_26x0_29x0_25 prefix=""/>
   <xacro:kuka_kr10r1420 prefix=""/>
   <xacro:include filename="lidar.xacro" />
+
 </robot>
