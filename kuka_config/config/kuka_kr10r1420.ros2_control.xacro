@@ -5,8 +5,7 @@
 
     <ros2_control name="${name}" type="system">
       <hardware>
-        <!-- By default, set up controllers for simulation. This won't work on real hardware -->
-        <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+        <plugin>ign_ros2_control/IgnitionSystem</plugin>
       </hardware>
       <joint name="joint_a1">
         <command_interface name="position"/>
@@ -54,7 +53,7 @@
     </ros2_control>
 
     <gazebo>
-      <plugin filename="libgz_ros2_control-system.so" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+      <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
         <parameters>$(find kuka_config)/config/ros2_controllers.yaml</parameters>
       </plugin>
     </gazebo>
