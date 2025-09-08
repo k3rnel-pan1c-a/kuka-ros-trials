@@ -39,12 +39,11 @@
     </inertial>
   </link>
 
-  <joint name="cylinder_to_drill_bit" type="revolute">
+  <joint name="cylinder_to_drill_bit" type="continuous">
     <parent link="cylinder_link"/>
     <child link="drill_bit"/>
     <origin xyz="0 0 0.5" rpy="0 0 0"/>
     <axis xyz="0 0 1"/>
-    <limit effort="10.0" velocity="1.0" lower="-3.14" upper="3.14"/>
   </joint>
 
   <joint name="robot_to_drill_bit" type="fixed">
