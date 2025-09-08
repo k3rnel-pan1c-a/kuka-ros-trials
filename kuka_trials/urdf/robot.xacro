@@ -3,13 +3,5 @@
   <xacro:include filename="kr10r1420_macro.xacro" />
   <xacro:kuka_kr10r1420 prefix=""/>
   <xacro:include filename="lidar.xacro" />
-
   <xacro:include filename="drill_bit.urdf.xacro"/>
-  <joint name="robot_to_drill_bit" type="fixed">
-    <parent link="base_link"/>    
-    <child link="cylinder_link"/>  
-    <origin xyz="2 0 0" rpy="0 0 0"/>
-  </joint>
-
-
 </robot>

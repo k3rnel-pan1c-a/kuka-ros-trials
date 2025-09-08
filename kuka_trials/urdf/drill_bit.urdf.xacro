@@ -47,4 +47,9 @@
     <limit effort="10.0" velocity="1.0" lower="-3.14" upper="3.14"/>
   </joint>
 
+  <joint name="robot_to_drill_bit" type="fixed">
+    <parent link="base_link"/>    
+    <child link="cylinder_link"/>  
+    <origin xyz="2 0 0" rpy="0 0 0"/>
+  </joint>
 </robot>

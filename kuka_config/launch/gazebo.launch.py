@@ -7,8 +7,12 @@ from launch.substitutions import Command, FindExecutable, PathJoinSubstitution, 
 from launch_ros.actions import SetParameter
 from launch_ros.substitutions import FindPackageShare
 from launch.conditions import IfCondition
+from ament_index_python.packages import get_package_share_path
 
 def generate_launch_description():
+    package_path = get_package_share_path('kuka_trials')
+    ros_gz_bridge_config_path = os.path.join(package_path, 'config', 'ros_gz_bridge.yaml')
+
     pkg_share = FindPackageShare('kuka_config')
 
     # Static virtual joint TFs (if present)
@@ -42,6 +46,12 @@ def generate_launch_description():
         executable='create',
         arguments=['-topic', 'robot_description'],
         output='screen'
+    )
+
+    ros_gz_bridge = Node(
+        package='ros_gz_bridge',
+        executable='parameter_bridge',
+        parameters=[{'config_file': ros_gz_bridge_config_path}],
     )
 
     # ros2_control controllers
@@ -78,6 +88,7 @@ def generate_launch_description():
         rsp_launch,
         gazebo_launch,
         spawn_entity,
+        ros_gz_bridge,
         controllers_launch,
         move_group_launch,
         rviz_launch,
