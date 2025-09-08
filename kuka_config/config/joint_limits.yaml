@@ -38,3 +38,8 @@ joint_limits:
     max_velocity: 8.5870199198121018
     has_acceleration_limits: false
     max_acceleration: 0
+  cylinder_to_drill_bit:
+    has_velocity_limits: true
+    max_velocity: 6.6497044500983957
+    has_acceleration_limits: false
+    max_acceleration: 0

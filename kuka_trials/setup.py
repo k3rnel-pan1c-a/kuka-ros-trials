@@ -26,6 +26,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
+            'rotary_pointcloud_node = node.pointcloud_builder:main',
         ],
     },
 )
