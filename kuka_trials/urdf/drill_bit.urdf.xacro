@@ -39,7 +39,7 @@
     </inertial>
   </link>
 
-  <joint name="cylinder_to_drill_bit" type="revolute">
+  <joint name="cylinder_to_drill_bit" type="continuous">
     <parent link="cylinder_link"/>
     <child link="drill_bit"/>
     <origin xyz="0 0 0.5" rpy="0 0 0"/>

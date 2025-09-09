@@ -10,7 +10,7 @@ controller_manager:
       type: joint_state_broadcaster/JointStateBroadcaster
 
     rotary_table_controller:
-      type: joint_trajectory_controller/JointTrajectoryController
+      type: velocity_controllers/JointGroupVelocityController
       
 arm_group_controller:
   ros__parameters:
@@ -47,7 +47,8 @@ rotary_table_controller:
     joints:
       - cylinder_to_drill_bit
     command_interfaces:
-      - position
+      - velocity
     state_interfaces:
       - position
       - velocity
+    command_timeout: 0.5  # seconds - how long to wait before stopping
