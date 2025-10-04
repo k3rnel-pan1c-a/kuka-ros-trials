@@ -21,9 +21,11 @@ def generate_launch_description():
         executable='joint_state_publisher_gui',
     )
 
+    rviz_config_path = os.path.join(get_package_share_path('kuka_trials'), 'rviz', 'display_config.rviz')
     rviz2_node = Node(
         package='rviz2',
         executable='rviz2',
+        arguments=['-d', rviz_config_path],
     )
 
     return LaunchDescription([robot_state_publisher_node, joint_state_publisher_gui_node, rviz2_node])
