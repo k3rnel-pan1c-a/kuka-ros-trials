@@ -1,26 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <robot name="drill_bit_module">
 
-  <link name="cylinder_link">
-    <visual>
-      <geometry>
-        <cylinder radius="0.4" length="0.2"/>
-      </geometry>
-      <origin xyz="0 0 0.1" rpy="0 0 0"/>
-    </visual>
-    <collision>
-      <geometry>
-        <cylinder radius="0.4" length="0.2"/>
-      </geometry>
-      <origin xyz="0 0 0.1" rpy="0 0 0"/>
-    </collision>
-  </link>
-
   <link name="drill_bit">
     <visual>
       <origin xyz="0 0 0" rpy="0 0 0"/> 
       <geometry>
-        <mesh filename="package://kuka_trials/meshes/Bit.dae" scale="2 2 2"/>
+        <mesh filename="package://kuka_trials/meshes/Bit.dae" scale="1.5 1.5 1.5"/>
       </geometry>
         <material name="Red">
             <color rgba="1 0 0 1"/>  
@@ -29,7 +14,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://kuka_trials/meshes/Bit.dae" scale="2 2 2"/>
+        <mesh filename="package://kuka_trials/meshes/Bit.dae" scale="1.5 1.5 1.5"/>
       </geometry>    
     </collision>
     <inertial>
@@ -39,16 +24,9 @@
     </inertial>
   </link>
 
-  <joint name="cylinder_to_drill_bit" type="continuous">
-    <parent link="cylinder_link"/>
-    <child link="drill_bit"/>
-    <origin xyz="0 0 0.5" rpy="0 0 0"/>
-    <axis xyz="0 0 1"/>
-  </joint>
-
   <joint name="robot_to_drill_bit" type="fixed">
     <parent link="base_link"/>    
-    <child link="cylinder_link"/>  
-    <origin xyz="2 0 0" rpy="0 0 0"/>
+    <child link="drill_bit"/>  
+    <origin xyz="0.0 0 1.625" rpy="3.14159 0 0"/>
   </joint>
 </robot>
