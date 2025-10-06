@@ -1,3 +1,4 @@
-cam_auto_adjusting/*
-kuka_config_updated/*
-kuka_config_package/*
+cam_auto_adjusting/
+kuka_config_updated/
+kuka_config_package/
+__pycache__/
