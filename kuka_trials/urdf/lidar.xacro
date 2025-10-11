@@ -61,9 +61,9 @@
                 </scan>
 
                 <range>
-                    <min>0.1</min>
-                    <max>5.0</max>
-                    <resolution>0.001</resolution>
+                    <min>0.15</min>
+                    <max>10.0</max>
+                    <resolution>0.01</resolution>
                 </range>
             </lidar>
         </sensor>
