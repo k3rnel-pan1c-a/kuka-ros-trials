@@ -107,7 +107,7 @@ class SimpleLaserToPointCloud(Node):
                 # Transform directly into base frame
                 vec = np.array([x, y, z, 1.0])
                 tx, ty, tz, _ = tf_mat @ vec
-                points.append((tx, ty, tz))
+                points.append((tx, ty, tz))          
                 angle += msg.angle_increment
 
             # Append new points to accumulated list
