@@ -11,35 +11,35 @@ joint_limits:
   joint_a1:
     has_velocity_limits: true
     max_velocity: 3.839724354387525
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 1.0
   joint_a2:
     has_velocity_limits: true
     max_velocity: 3.6651914291880923
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 1.0
   joint_a3:
     has_velocity_limits: true
     max_velocity: 4.7123889803846897
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 1.0
   joint_a4:
     has_velocity_limits: true
     max_velocity: 6.6497044500983957
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 1.0
   joint_a5:
     has_velocity_limits: true
     max_velocity: 5.4279739737023647
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 1.0
   joint_a6:
     has_velocity_limits: true
     max_velocity: 8.5870199198121018
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 1.0
   cylinder_to_drill_bit:
     has_velocity_limits: true
     max_velocity: 6.6497044500983957
-    has_acceleration_limits: false
-    max_acceleration: 0
+    has_acceleration_limits: true
+    max_acceleration: 1.0
