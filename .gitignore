@@ -2,3 +2,5 @@ cam_auto_adjusting/
 kuka_config_updated/
 kuka_config_package/
 __pycache__/
+
+.vscode/*
