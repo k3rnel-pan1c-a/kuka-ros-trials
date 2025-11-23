@@ -10,6 +10,8 @@
 #include <tf2/LinearMath/Matrix3x3.h>
 
 #include <cmath>
+#include <atomic>
+#include <memory>
 
 using MoveGroupInterface = moveit::planning_interface::MoveGroupInterface;
 
@@ -24,15 +26,49 @@ using LaserScan = sensor_msgs::msg::LaserScan;
 using namespace std::placeholders;
 
 
+class FeedbackNode : public rclcpp::Node {
+public:
+    FeedbackNode(std::shared_ptr<std::atomic<bool>> is_valid_range_flag)
+        : Node("FeedbackNode"), 
+          is_valid_range_(is_valid_range_flag)
+    {
+        laser_scan_sub_ = this->create_subscription<LaserScan>(
+            "scan", 10, 
+            std::bind(&FeedbackNode::laserScanCallback, this, std::placeholders::_1));
+        
+        RCLCPP_INFO(this->get_logger(), "FeedbackNode initialized");
+    }
+
+private:
+    void laserScanCallback(const LaserScan &msg){
+        if (!(*is_valid_range_)) {
+            for (size_t i = 0; i < msg.ranges.size(); i++){
+                if(std::isfinite(msg.ranges[i])){
+                    *is_valid_range_ = true; 
+                    RCLCPP_INFO(this->get_logger(), "Valid range detected!");
+                    break;
+                }
+            }
+        }
+    }
+
+    rclcpp::Subscription<LaserScan>::SharedPtr laser_scan_sub_;
+    std::shared_ptr<std::atomic<bool>> is_valid_range_;
+};
+
+
 class Commander {
 public:
-    Commander(const std::shared_ptr<rclcpp::Node>& main_node, 
+    Commander(const std::shared_ptr<rclcpp::Node>& main_node,
+              std::shared_ptr<std::atomic<bool>> is_valid_range_flag, 
               double max_radius, double end_effector_yaw, double min_z, double max_z)
         : main_node_(main_node),
           max_radius_(max_radius),
-          end_effector_yaw(end_effector_yaw),
           min_z_(min_z),
-          max_z_(max_z)
+          max_z_(max_z),
+          end_effector_yaw(end_effector_yaw),
+          is_valid_range_(is_valid_range_flag)
+
     {
         moveit_node_ = std::make_shared<rclcpp::Node>("moveit_node");
 
@@ -64,9 +100,6 @@ public:
             "named_target", 10,
             std::bind(&Commander::namedTargetCmdCallback, this, _1));
 
-        laser_scan_sub_ = main_node->create_subscription<LaserScan>(
-            "scan", 10, std::bind(&Commander::laserScanCallback, this, _1));
-
         get_current_pose_service_ = main_node_->create_service<GetCurrentPose>(
             "get_current_pose",
             std::bind(&Commander::getCurrentPoseService, this, _1, _2));
@@ -75,7 +108,6 @@ public:
             "do_homing",
             std::bind(&Commander::doHomingService, this, _1, _2));
         
-        is_valid_range_ = 0;
     }
 
     ~Commander() {
@@ -159,15 +191,6 @@ private:
         return success;
     }
 
-    void laserScanCallback(const LaserScan &msg){
-        for (int i = 0; i < msg.ranges.size(); i++){
-            if(isfinite(msg.ranges[i])){
-                is_valid_range_ = 1; 
-                break;
-            }
-        }
-    }
-
     void poseCmdCallback(const PoseCommand &msg) {
         goToPoseTarget(msg.x, msg.y, msg.z,
                        msg.roll, msg.pitch, msg.yaw,
@@ -241,9 +264,19 @@ private:
             
             if (success) {
                 RCLCPP_INFO(main_node_->get_logger(), "Homing completed successfully");
+                
+                // // Call vertical scan after homing
+                // RCLCPP_INFO(main_node_->get_logger(), "Starting vertical scan...");
+                // try {
+                //     doVerticalScan();
+                //     RCLCPP_INFO(main_node_->get_logger(), "Vertical scan completed");
+                // } catch (const std::exception& e) {
+                //     RCLCPP_ERROR(main_node_->get_logger(), "Vertical scan failed: %s", e.what());
+                // }
             } else {
                 RCLCPP_WARN(main_node_->get_logger(), "Homing failed - planning or execution error");
             }
+
         } catch (const std::exception& e) {
             response->success = false;
             RCLCPP_ERROR(main_node_->get_logger(), "Homing failed: %s", e.what());
@@ -252,12 +285,19 @@ private:
     
 
     void doVerticalScan(){
-        // Get current position
+        if (!is_valid_range_) {
+            RCLCPP_ERROR(main_node_->get_logger(), "is_valid_range_ pointer is null!");
+            return;
+        }
+        
+        RCLCPP_INFO(main_node_->get_logger(), "Getting current pose...");
         auto current_pose = arm_group_->getCurrentPose();
         double x = current_pose.pose.position.x;
         double y = current_pose.pose.position.y;
         
-        is_valid_range_ = false;
+        RCLCPP_INFO(main_node_->get_logger(), "Current position: [%.3f, %.3f]", x, y);
+        
+        *is_valid_range_ = false;
         
         RCLCPP_INFO(main_node_->get_logger(), 
                     "Starting vertical scan from z=%.3f to z=%.3f at position [%.3f, %.3f]", max_z_, min_z_, x, y);
@@ -266,18 +306,31 @@ private:
         
         if (!success) {
             RCLCPP_WARN(main_node_->get_logger(), 
-                       "Failed to complete vertical scan movement");
+                        "Failed to complete vertical scan movement");
             return;
         }
         
+        // RCLCPP_INFO(main_node_->get_logger(), 
+        //             "Movement completed. Sleeping for 100ms...");
         
-        if (is_valid_range_) {
+        // // Wait briefly to allow laser scan callbacks to process
+        // // FeedbackNode runs independently on MultiThreadedExecutor
+        // std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        
+        // RCLCPP_INFO(main_node_->get_logger(), 
+        //             "Done sleeping. Checking flag...");
+
+        if (*is_valid_range_) {
             RCLCPP_INFO(main_node_->get_logger(), 
-                       "Valid range detected during vertical scan!");
+                        "Valid range detected during vertical scan!");
         } else {
             RCLCPP_WARN(main_node_->get_logger(), 
-                       "Vertical scan completed - no valid range found from z=%.3f to z=%.3f", max_z_, min_z_);
+                        "Vertical scan completed - no valid range found from z=%.3f to z=%.3f", max_z_, min_z_);
         }
+    }
+
+    void moveDiagonally(){
+
     }
 
 
@@ -289,7 +342,6 @@ private:
     rclcpp::Subscription<PoseCommand>::SharedPtr pose_cmd_sub_;
     rclcpp::Subscription<PoseCommand>::SharedPtr position_cmd_sub_;
     rclcpp::Subscription<String>::SharedPtr go_to_named_target_sub_;
-    rclcpp::Subscription<LaserScan>::SharedPtr laser_scan_sub_;
 
     rclcpp::Service<GetCurrentPose>::SharedPtr get_current_pose_service_;
     rclcpp::Service<DoHoming>::SharedPtr do_homing_service_;
@@ -303,26 +355,36 @@ private:
 
     const double end_effector_yaw;
 
-    bool is_valid_range_;
+    std::shared_ptr<std::atomic<bool>> is_valid_range_;  // Shared with FeedbackNode
 };
 
 int main(int argc, char *argv[])
 {
     rclcpp::init(argc, argv);
 
+    auto is_valid_range_flag = std::make_shared<std::atomic<bool>>(false);
+
     auto main_node = std::make_shared<rclcpp::Node>("CommanderNode");
+    auto feedback_node = std::make_shared<FeedbackNode>(is_valid_range_flag);
     
     double max_radius = 0.25;
     double max_height = 0.6;
     double drill_bit_joint_z = 1.2; 
-    double min_z = drill_bit_joint_z + max_height / 2;
-    double max_z = drill_bit_joint_z - max_height / 2;
+    double max_z = drill_bit_joint_z + max_height / 2;
+    double min_z = drill_bit_joint_z - max_height / 2;
 
-    double end_effector_yaw = M_PI / 4;  // 45 degrees 
+    double end_effector_yaw = M_PI / 4;
 
-    auto commander = std::make_shared<Commander>(main_node, max_radius, end_effector_yaw, min_z, max_z);
+    auto commander = std::make_shared<Commander>(main_node, is_valid_range_flag, 
+                                                   max_radius, end_effector_yaw, min_z, max_z);
 
-    rclcpp::spin(main_node);
+    rclcpp::executors::MultiThreadedExecutor executor(
+        rclcpp::ExecutorOptions(),
+        4  // Number of threads
+    );
+    executor.add_node(main_node);
+    executor.add_node(feedback_node);
+    executor.spin();
 
     rclcpp::shutdown();
     return 0;
