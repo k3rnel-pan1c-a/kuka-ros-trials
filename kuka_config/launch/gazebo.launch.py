@@ -82,6 +82,12 @@ def generate_launch_description():
     )
 
 
+    my_robot_commander_cpp = Node(
+        package = 'my_robot_commander_cpp',
+        executable = 'test_moveit'
+    )
+
+
     return LaunchDescription([
         SetParameter(name='use_sim_time', value=True),
         static_virtual_joints_launch,
@@ -92,4 +98,5 @@ def generate_launch_description():
         controllers_launch,
         move_group_launch,
         rviz_launch,
+        my_robot_commander_cpp
     ])
