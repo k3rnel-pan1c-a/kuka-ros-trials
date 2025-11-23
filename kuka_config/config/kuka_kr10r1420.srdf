@@ -35,7 +35,7 @@
         <joint name="joint_a5" value="0"/>
         <joint name="joint_a6" value="0"/>
     </group_state>
-    <group_state name="resting pose" group="arm_group">
+    <group_state name="resting_pose" group="arm_group">
         <joint name="joint_a1" value="0"/>
         <joint name="joint_a2" value="-2.5132"/>
         <joint name="joint_a3" value="0.8203"/>
