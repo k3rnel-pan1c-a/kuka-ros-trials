@@ -4,6 +4,7 @@
 #include <my_robot_interfaces/srv/get_current_pose.hpp>
 #include <my_robot_interfaces/srv/do_homing.hpp>
 #include <std_msgs/msg/string.hpp>
+#include <sensor_msgs/msg/laser_scan.hpp>
 
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2/LinearMath/Matrix3x3.h>
@@ -17,19 +18,21 @@ using GetCurrentPose = my_robot_interfaces::srv::GetCurrentPose;
 using DoHoming = my_robot_interfaces::srv::DoHoming;
 
 using String = std_msgs::msg::String;
+using LaserScan = sensor_msgs::msg::LaserScan;
+
+
 using namespace std::placeholders;
 
 
 class Commander {
 public:
     Commander(const std::shared_ptr<rclcpp::Node>& main_node, 
-              double max_radius, 
-              double max_height, double end_effector_yaw)
+              double max_radius, double end_effector_yaw, double min_z, double max_z)
         : main_node_(main_node),
-          maxRadius(max_radius),
-          maxHeight(max_height),
-          end_effector_yaw(end_effector_yaw)
-
+          max_radius_(max_radius),
+          end_effector_yaw(end_effector_yaw),
+          min_z_(min_z),
+          max_z_(max_z)
     {
         moveit_node_ = std::make_shared<rclcpp::Node>("moveit_node");
 
@@ -61,6 +64,9 @@ public:
             "named_target", 10,
             std::bind(&Commander::namedTargetCmdCallback, this, _1));
 
+        laser_scan_sub_ = main_node->create_subscription<LaserScan>(
+            "scan", 10, std::bind(&Commander::laserScanCallback, this, _1));
+
         get_current_pose_service_ = main_node_->create_service<GetCurrentPose>(
             "get_current_pose",
             std::bind(&Commander::getCurrentPoseService, this, _1, _2));
@@ -68,6 +74,8 @@ public:
         do_homing_service_ = main_node_->create_service<DoHoming>(
             "do_homing",
             std::bind(&Commander::doHomingService, this, _1, _2));
+        
+        is_valid_range_ = 0;
     }
 
     ~Commander() {
@@ -151,6 +159,15 @@ private:
         return success;
     }
 
+    void laserScanCallback(const LaserScan &msg){
+        for (int i = 0; i < msg.ranges.size(); i++){
+            if(isfinite(msg.ranges[i])){
+                is_valid_range_ = 1; 
+                break;
+            }
+        }
+    }
+
     void poseCmdCallback(const PoseCommand &msg) {
         goToPoseTarget(msg.x, msg.y, msg.z,
                        msg.roll, msg.pitch, msg.yaw,
@@ -170,17 +187,15 @@ private:
         const std::shared_ptr<GetCurrentPose::Request> request,
         std::shared_ptr<GetCurrentPose::Response> response)
     {
-        (void)request;  // Unused parameter (I guess we do this to not get any compiler errors?)
+        (void)request;
         
         try {
             auto current_pose = arm_group_->getCurrentPose();
             
-            // Extract position
             response->x = current_pose.pose.position.x;
             response->y = current_pose.pose.position.y;
             response->z = current_pose.pose.position.z;
             
-            // Convert quaternion to roll, pitch, yaw
             tf2::Quaternion q(
                 current_pose.pose.orientation.x,
                 current_pose.pose.orientation.y,
@@ -218,9 +233,9 @@ private:
         try {
             RCLCPP_INFO(main_node_->get_logger(), 
                         "Homing service called - moving to home position [%.3f, %.3f, %.3f] with yaw: %.3f",
-                        -maxRadius, -maxRadius, maxHeight, end_effector_yaw);
+                        -max_radius_, -max_radius_, max_z_, end_effector_yaw);
             
-            bool success = goToPoseTarget(-maxRadius, -maxRadius, maxHeight, 0, 0, end_effector_yaw, false);
+            bool success = goToPoseTarget(-max_radius_, -max_radius_, max_z_, 0, 0, end_effector_yaw, false);
             
             response->success = success;
             
@@ -234,15 +249,47 @@ private:
             RCLCPP_ERROR(main_node_->get_logger(), "Homing failed: %s", e.what());
         }
     }
+    
 
-    std::shared_ptr<rclcpp::Node> main_node_;       // User-facing node
-    std::shared_ptr<rclcpp::Node> moveit_node_;     // MoveGroupInterface node
+    void doVerticalScan(){
+        // Get current position
+        auto current_pose = arm_group_->getCurrentPose();
+        double x = current_pose.pose.position.x;
+        double y = current_pose.pose.position.y;
+        
+        is_valid_range_ = false;
+        
+        RCLCPP_INFO(main_node_->get_logger(), 
+                    "Starting vertical scan from z=%.3f to z=%.3f at position [%.3f, %.3f]", max_z_, min_z_, x, y);
+        
+        bool success = goToPositionTarget(x, y, min_z_, true);
+        
+        if (!success) {
+            RCLCPP_WARN(main_node_->get_logger(), 
+                       "Failed to complete vertical scan movement");
+            return;
+        }
+        
+        
+        if (is_valid_range_) {
+            RCLCPP_INFO(main_node_->get_logger(), 
+                       "Valid range detected during vertical scan!");
+        } else {
+            RCLCPP_WARN(main_node_->get_logger(), 
+                       "Vertical scan completed - no valid range found from z=%.3f to z=%.3f", max_z_, min_z_);
+        }
+    }
+
+
+    std::shared_ptr<rclcpp::Node> main_node_;
+    std::shared_ptr<rclcpp::Node> moveit_node_;
 
     std::shared_ptr<MoveGroupInterface> arm_group_;
 
     rclcpp::Subscription<PoseCommand>::SharedPtr pose_cmd_sub_;
     rclcpp::Subscription<PoseCommand>::SharedPtr position_cmd_sub_;
     rclcpp::Subscription<String>::SharedPtr go_to_named_target_sub_;
+    rclcpp::Subscription<LaserScan>::SharedPtr laser_scan_sub_;
 
     rclcpp::Service<GetCurrentPose>::SharedPtr get_current_pose_service_;
     rclcpp::Service<DoHoming>::SharedPtr do_homing_service_;
@@ -250,9 +297,13 @@ private:
     std::shared_ptr<rclcpp::Executor> executor_;
     std::thread executor_thread_;
     
-    const double maxRadius;
-    const double maxHeight;
+    const double max_radius_;
+    const double min_z_;
+    const double max_z_;
+
     const double end_effector_yaw;
+
+    bool is_valid_range_;
 };
 
 int main(int argc, char *argv[])
@@ -261,11 +312,15 @@ int main(int argc, char *argv[])
 
     auto main_node = std::make_shared<rclcpp::Node>("CommanderNode");
     
-    double max_radius = 0.25;  
-    double max_height = 1.5; 
+    double max_radius = 0.25;
+    double max_height = 0.6;
+    double drill_bit_joint_z = 1.2; 
+    double min_z = drill_bit_joint_z + max_height / 2;
+    double max_z = drill_bit_joint_z - max_height / 2;
+
     double end_effector_yaw = M_PI / 4;  // 45 degrees 
 
-    auto commander = std::make_shared<Commander>(main_node, max_radius, max_height, end_effector_yaw);
+    auto commander = std::make_shared<Commander>(main_node, max_radius, end_effector_yaw, min_z, max_z);
 
     rclcpp::spin(main_node);
 
