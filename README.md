@@ -1,3 +1,10 @@
+# Setup Instructions
+```
+git clone https://github.com/k3rnel-pan1c-a/kuka-ros-trials src
+colcon build
+source install/setup.bash
+```
+
 # Documenting Errors and Solutions
 
 This document tracks issues encountered during development and the solutions applied to resolve them.
