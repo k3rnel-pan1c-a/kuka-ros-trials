@@ -391,4 +391,12 @@
       effort="1000.0"
       velocity="8.238" />
   </joint>
+
+  <link name="tool_link" />
+  
+  <joint name="hand_tool_joint" type="fixed">
+    <parent link="tip"/>
+    <child link="tool_link"/>
+    <origin xyz="0.03 0 0" rpy="0 0 0"/>
+  </joint>
 </robot>

@@ -8,7 +8,7 @@ import os
 
 def generate_launch_description():
     pkg_share = get_package_share_path('kuka_kr10_r1440')
-    urdf_path = os.path.join(pkg_share, 'urdf', 'kuka_kr10_r1440.xacro')
+    urdf_path = os.path.join(pkg_share, 'urdf', 'my_robot.urdf.xacro')
     robot_description = ParameterValue(Command(['xacro ', urdf_path]), value_type=str)
     rviz_config_path = os.path.join(pkg_share, 'rviz', 'display_config.rviz')
 
