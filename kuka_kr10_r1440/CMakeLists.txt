@@ -15,7 +15,7 @@ endif()
 
 # Install resources (configs, meshes, urdf, launch files)
 install(
-  DIRECTORY config launch meshes urdf
+  DIRECTORY config launch meshes urdf rviz
   DESTINATION share/${PROJECT_NAME}
 )
 
