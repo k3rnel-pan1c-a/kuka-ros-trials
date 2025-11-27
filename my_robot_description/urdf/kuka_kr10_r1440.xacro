@@ -21,7 +21,7 @@
     </inertial>
     <visual>
       <origin
-        xyz="0 0 0"
+        xyz="0.92485 -1.6825 0"
         rpy="0 0 0" />
       <geometry>
         <mesh
@@ -35,7 +35,7 @@
     </visual>
     <collision>
       <origin
-        xyz="0 0 0"
+        xyz="0.92485 -1.6825 0"
         rpy="0 0 0" />
       <geometry>
         <mesh
@@ -87,7 +87,7 @@
     name="joint_1"
     type="revolute">
     <origin
-      xyz="-0.92485 1.6825 0.20895"
+      xyz="0 0 0.20895"
       rpy="0 0 0" />
     <parent
       link="base_link" />
