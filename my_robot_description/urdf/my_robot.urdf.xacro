@@ -2,10 +2,17 @@
 <robot name="my_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
     <xacro:include filename="kuka_kr10_r1440.xacro"/>
     <xacro:include filename="laser_profiler.xacro"/>
+    <xacro:include filename="drill_bit.xacro" />
 
     <joint name="laser_profiler_base_joint" type="fixed">
         <parent link="tool_link"/>
         <child link="lp_link"/>
         <origin xyz="0 0 0" rpy="0 0 0"/>
     </joint>
+
+    <joint name="robot_to_drill_bit" type="fixed">
+        <parent link="base_link"/>    
+        <child link="drill_bit"/>  
+        <origin xyz="0.0 0 1.625" rpy="3.14159 0 0"/>
+  </joint>
 </robot>
