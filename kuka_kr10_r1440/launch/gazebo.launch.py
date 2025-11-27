@@ -2,7 +2,7 @@ from launch import LaunchDescription
 from ament_index_python.packages import get_package_share_path
 from launch_ros.parameter_descriptions import ParameterValue
 from launch_ros.actions import Node
-from launch.actions import ExecuteProcess
+from launch.actions import ExecuteProcess, SetEnvironmentVariable
 from launch.substitutions import Command, EnvironmentVariable
 import os
 
@@ -12,6 +12,14 @@ def generate_launch_description():
     ros_gz_bridge_config_path = os.path.join(package_path, 'config', 'ros_gz_bridge.yaml')
     
     robot_description = ParameterValue(Command(['xacro ', urdf_path]), value_type=str)
+
+    # Get the parent directory (install/share) to help Gazebo find packages
+    package_parent = str(package_path.parent)
+    
+    set_gz_resource_path = SetEnvironmentVariable(
+        name='GZ_SIM_RESOURCE_PATH',
+        value=f"{package_parent}:{package_path}"
+    )
 
     robot_state_publisher_node = Node(
         package='robot_state_publisher',
@@ -39,6 +47,7 @@ def generate_launch_description():
     )
 
     return LaunchDescription([
+        set_gz_resource_path,
         gz_sim_process,
         robot_state_publisher_node,
         spawn_entity,
