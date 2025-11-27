@@ -3,6 +3,7 @@
 #include <my_robot_interfaces/msg/pose_command.hpp>
 #include <my_robot_interfaces/srv/get_current_pose.hpp>
 #include <my_robot_interfaces/srv/do_homing.hpp>
+#include <my_robot_interfaces/srv/do_calibration.hpp>
 #include <std_msgs/msg/string.hpp>
 #include <sensor_msgs/msg/laser_scan.hpp>
 
@@ -18,6 +19,7 @@ using MoveGroupInterface = moveit::planning_interface::MoveGroupInterface;
 using PoseCommand = my_robot_interfaces::msg::PoseCommand;
 using GetCurrentPose = my_robot_interfaces::srv::GetCurrentPose;
 using DoHoming = my_robot_interfaces::srv::DoHoming;
+using DoCalibration = my_robot_interfaces::srv::DoCalibration;
 
 using String = std_msgs::msg::String;
 using LaserScan = sensor_msgs::msg::LaserScan;
@@ -26,60 +28,25 @@ using LaserScan = sensor_msgs::msg::LaserScan;
 using namespace std::placeholders;
 
 
-class FeedbackNode : public rclcpp::Node {
-public:
-    FeedbackNode(std::shared_ptr<std::atomic<bool>> is_valid_range_flag)
-        : Node("FeedbackNode"), 
-          is_valid_range_(is_valid_range_flag)
-    {
-        laser_scan_sub_ = this->create_subscription<LaserScan>(
-            "scan", 10, 
-            std::bind(&FeedbackNode::laserScanCallback, this, std::placeholders::_1));
-        
-        RCLCPP_INFO(this->get_logger(), "FeedbackNode initialized");
-    }
-
-private:
-    void laserScanCallback(const LaserScan &msg){
-        if (!(*is_valid_range_)) {
-            for (size_t i = 0; i < msg.ranges.size(); i++){
-                if(std::isfinite(msg.ranges[i])){
-                    *is_valid_range_ = true; 
-                    RCLCPP_INFO(this->get_logger(), "Valid range detected!");
-                    break;
-                }
-            }
-        }
-    }
-
-    rclcpp::Subscription<LaserScan>::SharedPtr laser_scan_sub_;
-    std::shared_ptr<std::atomic<bool>> is_valid_range_;
-};
-
-
 class Commander {
 public:
     Commander(const std::shared_ptr<rclcpp::Node>& main_node,
-              std::shared_ptr<std::atomic<bool>> is_valid_range_flag, 
+              const std::shared_ptr<rclcpp::Node>& feedback_node,
+              const std::shared_ptr<rclcpp::Node>& moveit_node,
+              std::shared_ptr<std::atomic<bool>> is_valid_range_flag,
+              std::shared_ptr<std::atomic<bool>> is_calibrating_flag,
               double max_radius, double end_effector_yaw, double min_z, double max_z)
         : main_node_(main_node),
+          feedback_node_(feedback_node),
+          moveit_node_(moveit_node),
           max_radius_(max_radius),
           min_z_(min_z),
           max_z_(max_z),
           end_effector_yaw(end_effector_yaw),
-          is_valid_range_(is_valid_range_flag)
+          is_valid_range_(is_valid_range_flag),
+          is_calibrating_(is_calibrating_flag)
 
     {
-        moveit_node_ = std::make_shared<rclcpp::Node>("moveit_node");
-
-        executor_ = std::make_shared<rclcpp::executors::SingleThreadedExecutor>();
-        executor_->add_node(moveit_node_);
-
-        executor_thread_ = std::thread([this]() {
-            RCLCPP_INFO(main_node_->get_logger(), "MoveIt executor thread started");
-            executor_->spin();
-        });
-
         arm_group_ = std::make_shared<MoveGroupInterface>(
             moveit_node_,
             MoveGroupInterface::Options("arm_group", "robot_description", "")
@@ -88,17 +55,13 @@ public:
         arm_group_->setMaxAccelerationScalingFactor(1.0);
         arm_group_->setMaxVelocityScalingFactor(1.0);
 
-        pose_cmd_sub_ = main_node_->create_subscription<PoseCommand>(
-            "pose_command", 10,
-            std::bind(&Commander::poseCmdCallback, this, _1));
-
-        position_cmd_sub_ = main_node_->create_subscription<PoseCommand>(
-            "position_command", 10,
-            std::bind(&Commander::positionCmdCallback, this, _1));
-
         go_to_named_target_sub_ = main_node_->create_subscription<String>(
             "named_target", 10,
             std::bind(&Commander::namedTargetCmdCallback, this, _1));
+
+        laser_scan_sub_ = feedback_node_->create_subscription<LaserScan>(
+            "scan", 10,
+            std::bind(&Commander::laserScanCallback, this, _1));
 
         get_current_pose_service_ = main_node_->create_service<GetCurrentPose>(
             "get_current_pose",
@@ -108,12 +71,10 @@ public:
             "do_homing",
             std::bind(&Commander::doHomingService, this, _1, _2));
         
-    }
-
-    ~Commander() {
-        executor_->cancel();
-        if (executor_thread_.joinable())
-            executor_thread_.join();
+        do_calibration_service_ = main_node_->create_service<DoCalibration>(
+            "do_calibration",
+            std::bind(&Commander::doCalibrationService, this, _1, _2));
+        
     }
 
     bool goToNamedTarget(const std::string &name) {
@@ -181,6 +142,7 @@ public:
 
 
 private:
+
     bool planAndExecute(const std::shared_ptr<MoveGroupInterface>& interface) {
         MoveGroupInterface::Plan plan;
         bool success = (interface->plan(plan) == moveit::core::MoveItErrorCode::SUCCESS);
@@ -191,19 +153,20 @@ private:
         return success;
     }
 
-    void poseCmdCallback(const PoseCommand &msg) {
-        goToPoseTarget(msg.x, msg.y, msg.z,
-                       msg.roll, msg.pitch, msg.yaw,
-                       msg.cartesian_path);
-    }
-
-    void positionCmdCallback(const PoseCommand &msg) {
-        goToPositionTarget(msg.x, msg.y, msg.z,
-                           msg.cartesian_path);
-    }
-
     void namedTargetCmdCallback(const String &msg) {
         goToNamedTarget(msg.data);
+    }
+
+    void laserScanCallback(const LaserScan &msg){
+        if (*is_calibrating_ && !(*is_valid_range_)) {
+            for (size_t i = 0; i < msg.ranges.size(); i++){
+                if(std::isfinite(msg.ranges[i])){
+                    *is_valid_range_ = true; 
+                    RCLCPP_INFO(main_node_->get_logger(), "Valid range detected!");
+                    break;
+                }
+            }
+        }
     }
 
     void getCurrentPoseService(
@@ -251,7 +214,7 @@ private:
         const std::shared_ptr<DoHoming::Request> request,
         std::shared_ptr<DoHoming::Response> response)
     {
-        (void)request; // unused parameter
+        (void)request; 
         
         try {
             RCLCPP_INFO(main_node_->get_logger(), 
@@ -265,14 +228,6 @@ private:
             if (success) {
                 RCLCPP_INFO(main_node_->get_logger(), "Homing completed successfully");
                 
-                // // Call vertical scan after homing
-                // RCLCPP_INFO(main_node_->get_logger(), "Starting vertical scan...");
-                // try {
-                //     doVerticalScan();
-                //     RCLCPP_INFO(main_node_->get_logger(), "Vertical scan completed");
-                // } catch (const std::exception& e) {
-                //     RCLCPP_ERROR(main_node_->get_logger(), "Vertical scan failed: %s", e.what());
-                // }
             } else {
                 RCLCPP_WARN(main_node_->get_logger(), "Homing failed - planning or execution error");
             }
@@ -283,6 +238,50 @@ private:
         }
     }
     
+    void doCalibrationService(
+        const std::shared_ptr<DoCalibration::Request> request,
+        std::shared_ptr<DoCalibration::Response> response)
+    {
+        try {
+            double step_size = request->step_size;
+            
+            if (step_size <= 0.0 || step_size > 0.1) {
+                response->success = false;
+                response->message = "Invalid step size. Must be between 0 and 0.1 meters.";
+                RCLCPP_WARN(main_node_->get_logger(), "%s", response->message.c_str());
+                return;
+            }
+            
+            RCLCPP_INFO(main_node_->get_logger(), 
+                        "Calibration service called with step size: %.3f", step_size);
+            
+            *is_calibrating_ = true;
+            *is_valid_range_ = false;  
+            
+            RCLCPP_INFO(main_node_->get_logger(), "Calibration mode enabled");
+            
+            approachWithVerticalScans(step_size);
+            
+            *is_calibrating_ = false;
+            RCLCPP_INFO(main_node_->get_logger(), "Calibration mode disabled");
+            
+            if (*is_valid_range_) {
+                response->success = true;
+                response->message = "Calibration completed successfully - valid range found";
+                RCLCPP_INFO(main_node_->get_logger(), "%s", response->message.c_str());
+            } else {
+                response->success = false;
+                response->message = "Calibration completed but no valid range found";
+                RCLCPP_WARN(main_node_->get_logger(), "%s", response->message.c_str());
+            }
+            
+        } catch (const std::exception& e) {
+            *is_calibrating_ = false;
+            response->success = false;
+            response->message = std::string("Calibration failed: ") + e.what();
+            RCLCPP_ERROR(main_node_->get_logger(), "%s", response->message.c_str());
+        }
+    }
 
     void doVerticalScan(){
         if (!is_valid_range_) {
@@ -297,8 +296,6 @@ private:
         
         RCLCPP_INFO(main_node_->get_logger(), "Current position: [%.3f, %.3f]", x, y);
         
-        *is_valid_range_ = false;
-        
         RCLCPP_INFO(main_node_->get_logger(), 
                     "Starting vertical scan from z=%.3f to z=%.3f at position [%.3f, %.3f]", max_z_, min_z_, x, y);
         
@@ -309,16 +306,6 @@ private:
                         "Failed to complete vertical scan movement");
             return;
         }
-        
-        // RCLCPP_INFO(main_node_->get_logger(), 
-        //             "Movement completed. Sleeping for 100ms...");
-        
-        // // Wait briefly to allow laser scan callbacks to process
-        // // FeedbackNode runs independently on MultiThreadedExecutor
-        // std::this_thread::sleep_for(std::chrono::milliseconds(100));
-        
-        // RCLCPP_INFO(main_node_->get_logger(), 
-        //             "Done sleeping. Checking flag...");
 
         if (*is_valid_range_) {
             RCLCPP_INFO(main_node_->get_logger(), 
@@ -329,25 +316,87 @@ private:
         }
     }
 
-    void moveDiagonally(){
+    void approachWithVerticalScans(double step_size = 0.1){
+        if (!is_valid_range_) {
+            RCLCPP_ERROR(main_node_->get_logger(), "is_valid_range_ pointer is null!");
+            return;
+        }
 
+        RCLCPP_INFO(main_node_->get_logger(), 
+                    "Starting approach with vertical scans (step size: %.3f)", step_size);
+        
+        auto current_pose = arm_group_->getCurrentPose();
+        double x = current_pose.pose.position.x;
+        double y = current_pose.pose.position.y;
+        
+        RCLCPP_INFO(main_node_->get_logger(), 
+                    "Initial position: [%.3f, %.3f]", x, y);
+        
+        double distance = std::sqrt(x * x + y * y);
+        double step_x = -(x / distance) * step_size;
+        double step_y = -(y / distance) * step_size;
+        
+        RCLCPP_INFO(main_node_->get_logger(), 
+                    "Step direction: [%.3f, %.3f] (towards origin)", step_x, step_y);
+        
+        int iteration = 0;
+        const int max_iterations = 50; 
+        
+        while (!(*is_valid_range_) && iteration < max_iterations) {
+            RCLCPP_INFO(main_node_->get_logger(), 
+                        "Iteration %d: Starting vertical scan at [%.3f, %.3f]", 
+                        iteration, x, y);
+            
+            doVerticalScan();
+            
+            if (*is_valid_range_) {
+                RCLCPP_INFO(main_node_->get_logger(), 
+                            "Valid range found at position [%.3f, %.3f] after %d iterations", 
+                            x, y, iteration);
+                break;
+            }
+            
+            x += step_x;
+            y += step_y;
+            
+            RCLCPP_INFO(main_node_->get_logger(), 
+                        "Moving to next scan position: [%.3f, %.3f, %.3f]", x, y, max_z_);
+            bool success = goToPositionTarget(x, y, max_z_, true);
+            
+            if (!success) {
+                RCLCPP_ERROR(main_node_->get_logger(), 
+                            "Failed to move to next scan position. Aborting approach.");
+                return;
+            }
+            
+            iteration++;
+        }
+        
+        if (iteration >= max_iterations) {
+            RCLCPP_WARN(main_node_->get_logger(), 
+                        "Reached maximum iterations (%d) without finding valid range", 
+                        max_iterations);
+        }
+        else{
+            RCLCPP_INFO(main_node_->get_logger(), 
+                        "Approach with vertical scans completed. Final position: [%.3f, %.3f]", 
+                        x, y);
+        }
     }
 
 
     std::shared_ptr<rclcpp::Node> main_node_;
+    std::shared_ptr<rclcpp::Node> feedback_node_;
     std::shared_ptr<rclcpp::Node> moveit_node_;
 
     std::shared_ptr<MoveGroupInterface> arm_group_;
 
-    rclcpp::Subscription<PoseCommand>::SharedPtr pose_cmd_sub_;
-    rclcpp::Subscription<PoseCommand>::SharedPtr position_cmd_sub_;
     rclcpp::Subscription<String>::SharedPtr go_to_named_target_sub_;
+    rclcpp::Subscription<LaserScan>::SharedPtr laser_scan_sub_;
 
     rclcpp::Service<GetCurrentPose>::SharedPtr get_current_pose_service_;
     rclcpp::Service<DoHoming>::SharedPtr do_homing_service_;
-
-    std::shared_ptr<rclcpp::Executor> executor_;
-    std::thread executor_thread_;
+    rclcpp::Service<DoCalibration>::SharedPtr do_calibration_service_;
     
     const double max_radius_;
     const double min_z_;
@@ -355,7 +404,8 @@ private:
 
     const double end_effector_yaw;
 
-    std::shared_ptr<std::atomic<bool>> is_valid_range_;  // Shared with FeedbackNode
+    std::shared_ptr<std::atomic<bool>> is_valid_range_;
+    std::shared_ptr<std::atomic<bool>> is_calibrating_;
 };
 
 int main(int argc, char *argv[])
@@ -363,27 +413,32 @@ int main(int argc, char *argv[])
     rclcpp::init(argc, argv);
 
     auto is_valid_range_flag = std::make_shared<std::atomic<bool>>(false);
+    auto is_calibrating_flag = std::make_shared<std::atomic<bool>>(false);
 
     auto main_node = std::make_shared<rclcpp::Node>("CommanderNode");
-    auto feedback_node = std::make_shared<FeedbackNode>(is_valid_range_flag);
+    auto feedback_node = std::make_shared<rclcpp::Node>("FeedbackNode");
+    auto moveit_node = std::make_shared<rclcpp::Node>("MoveItNode");
     
-    double max_radius = 0.25;
+    double max_radius = 0.254;
+    double min_laser_range = 0.19;
+
     double max_height = 0.6;
-    double drill_bit_joint_z = 1.2; 
+    double drill_bit_joint_z = 1.4; 
     double max_z = drill_bit_joint_z + max_height / 2;
     double min_z = drill_bit_joint_z - max_height / 2;
 
     double end_effector_yaw = M_PI / 4;
 
-    auto commander = std::make_shared<Commander>(main_node, is_valid_range_flag, 
-                                                   max_radius, end_effector_yaw, min_z, max_z);
+    auto commander = std::make_shared<Commander>(main_node, feedback_node, moveit_node, is_valid_range_flag, is_calibrating_flag,
+                                                   max_radius + min_laser_range, end_effector_yaw, min_z, max_z);
 
     rclcpp::executors::MultiThreadedExecutor executor(
         rclcpp::ExecutorOptions(),
-        4  // Number of threads
+        4 
     );
     executor.add_node(main_node);
     executor.add_node(feedback_node);
+    executor.add_node(moveit_node);
     executor.spin();
 
     rclcpp::shutdown();
