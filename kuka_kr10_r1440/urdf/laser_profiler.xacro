@@ -6,7 +6,7 @@
         <visual>
             <origin xyz="0.05 0 0" rpy="0 0 ${pi/2}"/>
             <geometry>
-                <mesh filename="package://kuka_kr10_r1440/meshes/scanControl_laser_profiler/laser_profiler_visual.dae"/>
+                <mesh filename="package://my_robot_description/meshes/scanControl_laser_profiler/laser_profiler_visual.dae"/>
             </geometry>
             <material name="microepsilon_silver">
                 <color rgba="0.7 0.7 0.7 1.0"/>
@@ -15,7 +15,7 @@
         <collision>
             <origin xyz="0.05 0 0" rpy="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_kr10_r1440/meshes/scanControl_laser_profiler/laser_profiler_collision.stl"/>
+                <mesh filename="package://my_robot_description/meshes/scanControl_laser_profiler/laser_profiler_collision.stl"/>
             </geometry>
         </collision>
         <inertial>

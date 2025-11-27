@@ -7,7 +7,7 @@ from launch.substitutions import Command, PathJoinSubstitution
 import os
 
 def generate_launch_description():
-    pkg_share = get_package_share_path('kuka_kr10_r1440')
+    pkg_share = get_package_share_path('my_robot_description')
     urdf_path = os.path.join(pkg_share, 'urdf', 'my_robot.urdf.xacro')
     robot_description = ParameterValue(Command(['xacro ', urdf_path]), value_type=str)
     rviz_config_path = os.path.join(pkg_share, 'rviz', 'display_config.rviz')

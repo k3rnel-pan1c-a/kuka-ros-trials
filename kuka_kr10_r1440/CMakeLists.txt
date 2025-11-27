@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8)
 
-project(kuka_kr10_r1440)
+project(my_robot_description)
 
 # Use ament instead of catkin
 find_package(ament_cmake REQUIRED)

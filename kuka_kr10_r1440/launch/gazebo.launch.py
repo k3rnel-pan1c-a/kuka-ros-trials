@@ -7,7 +7,7 @@ from launch.substitutions import Command, EnvironmentVariable
 import os
 
 def generate_launch_description():
-    package_path = get_package_share_path('kuka_kr10_r1440')
+    package_path = get_package_share_path('my_robot_description')
     urdf_path = os.path.join(package_path, 'urdf', 'my_robot.urdf.xacro')
     ros_gz_bridge_config_path = os.path.join(package_path, 'config', 'ros_gz_bridge.yaml')
     
