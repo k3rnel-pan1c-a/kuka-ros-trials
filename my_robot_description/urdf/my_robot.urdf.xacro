@@ -12,7 +12,7 @@
 
     <joint name="robot_to_drill_bit" type="fixed">
         <parent link="base_link"/>    
-        <child link="drill_bit"/>  
-        <origin xyz="0.0 0 1.625" rpy="3.14159 0 0"/>
+        <child link="rotary_table"/>  
+        <origin xyz="1.2 0 0" rpy="0 0 0"/>
   </joint>
 </robot>

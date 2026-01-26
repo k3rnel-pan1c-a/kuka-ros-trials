@@ -1,27 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <robot name="drill_bit_module">
+  <link name ="rotary_table">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.3" />
+      </geometry>
+      <material name="brown"/>
+    </visual>
+
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder length="0.1" radius="0.3" />
+      </geometry>
+    </collision>
+
+    <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="5.0"/>
+      <inertia
+        ixx="0.116667" ixy="0.0" ixz="0.0"
+        iyy="0.116667" iyz="0.0"
+        izz="0.225000"/>
+    </inertial>
+  </link>
 
   <link name="drill_bit">
     <visual>
-      <origin xyz="0 0 0" rpy="0 0 0"/> 
+      <origin xyz="0 0 0.3" rpy="0 0 0"/> 
       <geometry>
-        <mesh filename="package://my_robot_description/meshes/drill_bit/Bit.dae" scale="1.5 1.5 1.5"/>
+        <mesh filename="package://my_robot_description/meshes/drill_bit/Bit.dae" scale="2 2 2"/>
       </geometry>
         <material name="Red">
             <color rgba="1 0 0 1"/>  
         </material>    
     </visual>
     <collision>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0.3" rpy="0 0 0"/>
       <geometry>
-        <mesh filename="package://my_robot_description/meshes/drill_bit/Bit.dae" scale="1.5 1.5 1.5"/>
+        <mesh filename="package://my_robot_description/meshes/drill_bit/Bit.dae" scale="2 2 2"/>
       </geometry>    
     </collision>
     <inertial>
-      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <origin xyz="0 0 0.3" rpy="0 0 0"/>
       <mass value="0.1"/>
       <inertia ixx="0.001" ixy="0.0" ixz="0.0" iyy="0.001" iyz="0.0" izz="0.001"/>
     </inertial>
   </link>
+  
+  <joint name="rotary_table_to_drill_bit" type="continuous">
+    <parent link="rotary_table"/>
+    <child link="drill_bit"/>
+    <origin xyz="0 0 0.05" rpy="0 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
 
 </robot>
