@@ -13,6 +13,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/PoseCommand.msg"
   "srv/GetCurrentPose.srv"
   "srv/DoHoming.srv"
+  "srv/DoCalibration.srv"
  )
 
 ament_export_dependencies(rosidl_default_runtime)
