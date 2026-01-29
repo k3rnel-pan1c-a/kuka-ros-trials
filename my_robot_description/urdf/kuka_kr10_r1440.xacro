@@ -1,24 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by
+Stephen Brawner (brawner@gmail.com) 
      Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
      For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
 <robot name="kuka_kr10_r1440" xmlns:xacro="http://wiki.ros.org/xacro">
   <link
     name="base_link">
     <inertial>
-      <origin
-        xyz="-0.94792388319322 0.112998004819372 -1.68215865815263"
-        rpy="0 0 0" />
-      <mass
-        value="20.6137385324781" />
-      <inertia
-        ixx="0.216074716467355"
-        ixy="-0.00697519873174747"
-        ixz="0.00126159186714733"
-        iyy="0.303979205433131"
-        iyz="8.3559462572306E-05"
-        izz="0.274546679611052" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="80.0" />
+      <inertia ixx="1.6" ixy="0" ixz="0"
+        iyy="1.6" iyz="0"
+        izz="1.6" />
     </inertial>
+
     <visual>
       <origin
         xyz="0.92485 -1.6825 0"
@@ -46,19 +41,13 @@
   <link
     name="main">
     <inertial>
-      <origin
-        xyz="0.0632284437537725 0.00929092839226131 0.151469595427842"
-        rpy="0 0 0" />
-      <mass
-        value="16.5877058736608" />
-      <inertia
-        ixx="0.213364177309297"
-        ixy="-0.00124862337724952"
-        ixz="-0.0652742604919086"
-        iyy="0.271566109902848"
-        iyz="-0.00700450075433371"
-        izz="0.280770579092271" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="20.0" />
+      <inertia ixx="0.4" ixy="0" ixz="0"
+        iyy="0.4" iyz="0"
+        izz="0.4" />
     </inertial>
+
     <visual>
       <origin
         xyz="0 0 0"
@@ -104,19 +93,13 @@
   <link
     name="shoulder">
     <inertial>
-      <origin
-        xyz="0.000852090553587148 -0.104676845002504 0.279095391304661"
-        rpy="0 0 0" />
-      <mass
-        value="5.98606302743919" />
-      <inertia
-        ixx="0.206272787110369"
-        ixy="0.000117779084168488"
-        ixz="0.00297582879107552"
-        iyy="0.207693501721032"
-        iyz="-0.00502616214328619"
-        izz="0.0136280198187545" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="18.0" />
+      <inertia ixx="0.36" ixy="0" ixz="0"
+        iyy="0.36" iyz="0"
+        izz="0.36" />
     </inertial>
+
     <visual>
       <origin
         xyz="0 0 0"
@@ -162,19 +145,13 @@
   <link
     name="elbow">
     <inertial>
-      <origin
-        xyz="0.0995106205138032 0.0616097767118939 0.00765775063038454"
-        rpy="0 0 0" />
-      <mass
-        value="8.85888657119431" />
-      <inertia
-        ixx="0.058368913826774"
-        ixy="0.00552342155062603"
-        ixz="-0.00736609365417676"
-        iyy="0.125408452190449"
-        iyz="0.00188430263926034"
-        izz="0.155760488369855" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="15.0" />
+      <inertia ixx="0.30" ixy="0" ixz="0"
+        iyy="0.30" iyz="0"
+        izz="0.30" />
     </inertial>
+
     <visual>
       <origin
         xyz="0 0 0"
@@ -220,19 +197,13 @@
   <link
     name="forearm">
     <inertial>
-      <origin
-        xyz="0.1578061107801 0.00351550466662398 -0.000100089951616811"
-        rpy="0 0 0" />
-      <mass
-        value="3.65029981726324" />
-      <inertia
-        ixx="0.00917865890816277"
-        ixy="-0.00142122363539938"
-        ixz="3.7338999994283E-05"
-        iyy="0.0307691099782471"
-        iyz="2.55337921965769E-06"
-        izz="0.0341742620308375" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="9.0" />
+      <inertia ixx="0.18" ixy="0" ixz="0"
+        iyy="0.18" iyz="0"
+        izz="0.18" />
     </inertial>
+
     <visual>
       <origin
         xyz="0 0 0"
@@ -278,19 +249,13 @@
   <link
     name="end_effector">
     <inertial>
-      <origin
-        xyz="0.0193967535443269 -0.000441140100691184 -4.63578473053339E-06"
-        rpy="0 0 0" />
-      <mass
-        value="0.801084827998526" />
-      <inertia
-        ixx="0.000800317659267955"
-        ixy="-1.20735069553458E-05"
-        ixz="8.09258799294812E-08"
-        iyy="0.00144153549696237"
-        iyz="1.26613332380619E-07"
-        izz="0.00150222102892646" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="6.0" />
+      <inertia ixx="0.12" ixy="0" ixz="0"
+        iyy="0.12" iyz="0"
+        izz="0.12" />
     </inertial>
+
     <visual>
       <origin
         xyz="0 0 0"
@@ -336,19 +301,13 @@
   <link
     name="tip">
     <inertial>
-      <origin
-        xyz="0.00914664476705158 -2.48090437082737E-12 2.17469667571635E-05"
-        rpy="0 0 0" />
-      <mass
-        value="0.0348816654893627" />
-      <inertia
-        ixx="2.95496260414526E-05"
-        ixy="-1.6687104853903E-16"
-        ixz="-1.89500850401313E-09"
-        iyy="1.5160754996191E-05"
-        iyz="-3.17526859772393E-15"
-        izz="1.51561337859069E-05" />
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <mass value="0.8" />
+      <inertia ixx="0.016" ixy="0" ixz="0"
+        iyy="0.016" iyz="0"
+        izz="0.016" />
     </inertial>
+
     <visual>
       <origin
         xyz="0 0 0"
@@ -393,10 +352,10 @@
   </joint>
 
   <link name="tool_link" />
-  
+
   <joint name="hand_tool_joint" type="fixed">
-    <parent link="tip"/>
-    <child link="tool_link"/>
-    <origin xyz="0.03 0 0" rpy="0 0 0"/>
+    <parent link="tip" />
+    <child link="tool_link" />
+    <origin xyz="0.03 0 0" rpy="0 0 0" />
   </joint>
 </robot>
