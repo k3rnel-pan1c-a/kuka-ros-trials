@@ -6,3 +6,6 @@ __pycache__/
 # Ignore .vscode directories anywhere in the repository
 **/.vscode/
 .vscode/
+build/
+install/
+log/
