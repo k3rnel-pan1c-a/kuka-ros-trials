@@ -1,9 +1,0 @@
-/home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_config/CMakeFiles/uninstall.dir
-/home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_config/CMakeFiles/kuka_config_uninstall.dir
-/home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_config/CMakeFiles/test.dir
-/home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_config/CMakeFiles/edit_cache.dir
-/home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_config/CMakeFiles/rebuild_cache.dir
-/home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_config/CMakeFiles/list_install_components.dir
-/home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_config/CMakeFiles/install.dir
-/home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_config/CMakeFiles/install/local.dir
-/home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_config/CMakeFiles/install/strip.dir

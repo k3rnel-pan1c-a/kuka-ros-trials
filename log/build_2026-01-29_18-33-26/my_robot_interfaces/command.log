@@ -1,1 +1,0 @@
-Invoking command in '/home/cortex/kuka_ws/src/kuka-ros-trials/build/my_robot_interfaces': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /home/cortex/kuka_ws/src/kuka-ros-trials/my_robot_interfaces -DCMAKE_INSTALL_PREFIX=/home/cortex/kuka_ws/src/kuka-ros-trials/install/my_robot_interfaces

@@ -1,1 +1,0 @@
-Invoking command in '/home/cortex/kuka_ws/src/kuka-ros-trials/build/my_robot_interfaces': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/cortex/kuka_ws/src/kuka-ros-trials/build/my_robot_interfaces -- -j20 -l20

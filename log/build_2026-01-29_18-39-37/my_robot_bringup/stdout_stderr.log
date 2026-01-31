@@ -1,9 +1,0 @@
--- Install configuration: ""
--- Up-to-date: /home/cortex/kuka_ws/src/kuka-ros-trials/install/my_robot_bringup/share/my_robot_bringup/config
--- Up-to-date: /home/cortex/kuka_ws/src/kuka-ros-trials/install/my_robot_bringup/share/my_robot_bringup/config/ros2_controllers.yaml
-[31mCMake Error at cmake_install.cmake:46 (file):
-  file INSTALL cannot find
-  "/home/cortex/kuka_ws/src/kuka-ros-trials/my_robot_bringup/launch": No such
-  file or directory.
-
-[0m

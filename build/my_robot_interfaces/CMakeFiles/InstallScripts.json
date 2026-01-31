@@ -1,8 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/home/cortex/kuka_ws/src/kuka-ros-trials/build/my_robot_interfaces/cmake_install.cmake",
-		"/home/cortex/kuka_ws/src/kuka-ros-trials/build/my_robot_interfaces/my_robot_interfaces__py/cmake_install.cmake"
-	],
-	"Parallel" : false
-}
