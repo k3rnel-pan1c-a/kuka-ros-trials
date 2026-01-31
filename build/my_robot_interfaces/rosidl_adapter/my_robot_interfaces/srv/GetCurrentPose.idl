@@ -1,0 +1,36 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from my_robot_interfaces/srv/GetCurrentPose.srv
+// generated code does not contain a copyright notice
+
+
+module my_robot_interfaces {
+  module srv {
+    @verbatim (language="comment", text=
+      "Request (empty - no input needed)")
+    struct GetCurrentPose_Request {
+      uint8 structure_needs_at_least_one_member;
+    };
+    @verbatim (language="comment", text=
+      "Response" "\n"
+      "Position (x, y, z)")
+    struct GetCurrentPose_Response {
+      double x;
+
+      double y;
+
+      double z;
+
+      @verbatim (language="comment", text=
+        "Orientation in Euler angles (radians)")
+      double roll;
+
+      double pitch;
+
+      double yaw;
+
+      boolean success;
+
+      string message;
+    };
+  };
+};

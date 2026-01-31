@@ -48,6 +48,18 @@ class SimpleLaserToPointCloud(Node):
         rot = Rotation.from_quat([q.x, q.y, q.z, q.w]).as_matrix()
         mat[0:3, 0:3] = rot
         return mat
+    
+    @staticmethod
+    def rot_z_matrix(theta):
+        """4x4 homogeneous rotation about Z."""
+        c = np.cos(theta)
+        s = np.sin(theta)
+        R = np.eye(4, dtype=float)
+        R[0, 0] = c
+        R[0, 1] = -s
+        R[1, 0] = s
+        R[1, 1] = c
+        return R
 
     def get_variation_matrix(self):
         """Compute delta T = inv(home) * current"""
@@ -89,6 +101,9 @@ class SimpleLaserToPointCloud(Node):
             )
             tf_mat = self.tf_to_matrix(transform)
 
+            # Create inverse rotation to "undo" the table rotation
+            # This transforms points as if the drill bit was at angle 0
+            inverse_rot = self.rot_z_matrix(-self.current_angle)
             points = []
             angle = msg.angle_min
             for r in msg.ranges:
@@ -106,10 +121,15 @@ class SimpleLaserToPointCloud(Node):
 
                 # Transform directly into base frame
                 vec = np.array([x, y, z, 1.0])
-                tx, ty, tz, _ = tf_mat @ vec
-                points.append((tx, ty, tz))          
-                angle += msg.angle_increment
+                                # Step 1: Transform to table_base frame
+                vec_fixed = tf_mat @ vec
 
+                # Step 2: Apply inverse rotation to align all points as if drill bit was at 0°
+                vec_rotated = inverse_rot @ vec_fixed
+
+                points.append((vec_rotated[0], vec_rotated[1], vec_rotated[2]))
+                angle += msg.angle_increment
+           
             # Append new points to accumulated list
             self.points.extend(points)
 

@@ -10,6 +10,11 @@ controller_manager:
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
+    
+    rotary_velocity_controller:
+      type: forward_command_controller/ForwardCommandController
+
+
 arm_controller:
   ros__parameters:
     joints:
@@ -25,3 +30,26 @@ arm_controller:
       - position
       - velocity
     allow_nonzero_velocity_at_trajectory_end: true
+
+    constraints:
+      goal_time: 0.0
+      stopped_velocity_tolerance: 0.0
+      joint_1:
+        goal: 0.05
+      joint_2:
+        goal: 0.05
+      joint_3:
+        goal: 0.05
+      joint_4:
+        goal: 0.05
+      joint_5:
+        goal: 0.05
+      joint_6:
+        goal: 0.05
+
+
+rotary_velocity_controller:
+  ros__parameters:
+    joints:
+      - rotary_table_to_drill_bit
+    interface_name: velocity

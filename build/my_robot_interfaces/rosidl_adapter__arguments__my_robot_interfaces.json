@@ -1,0 +1,9 @@
+{
+  "package_name": "my_robot_interfaces",
+  "non_idl_tuples": [
+    "/home/cortex/kuka_ws/src/kuka-ros-trials/my_robot_interfaces:msg/PoseCommand.msg",
+    "/home/cortex/kuka_ws/src/kuka-ros-trials/my_robot_interfaces:srv/GetCurrentPose.srv",
+    "/home/cortex/kuka_ws/src/kuka-ros-trials/my_robot_interfaces:srv/DoHoming.srv",
+    "/home/cortex/kuka_ws/src/kuka-ros-trials/my_robot_interfaces:srv/DoCalibration.srv"
+  ]
+}

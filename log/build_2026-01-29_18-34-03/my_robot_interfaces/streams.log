@@ -1,0 +1,80 @@
+[0.231s] Invoking command in '/home/cortex/kuka_ws/src/kuka-ros-trials/build/my_robot_interfaces': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake --build /home/cortex/kuka_ws/src/kuka-ros-trials/build/my_robot_interfaces -- -j20 -l20
+[0.253s] [  1%] [34m[1mGenerating C code for ROS interfaces[0m
+[0.259s] [  3%] [34m[1mGenerating C++ code for ROS interfaces[0m
+[0.262s] [  3%] Built target ament_cmake_python_copy_my_robot_interfaces
+[0.460s] running egg_info
+[0.460s] creating my_robot_interfaces.egg-info
+[0.460s] writing my_robot_interfaces.egg-info/PKG-INFO
+[0.460s] writing dependency_links to my_robot_interfaces.egg-info/dependency_links.txt
+[0.460s] writing top-level names to my_robot_interfaces.egg-info/top_level.txt
+[0.460s] writing manifest file 'my_robot_interfaces.egg-info/SOURCES.txt'
+[0.460s] reading manifest file 'my_robot_interfaces.egg-info/SOURCES.txt'
+[0.461s] writing manifest file 'my_robot_interfaces.egg-info/SOURCES.txt'
+[0.477s] [  3%] Built target ament_cmake_python_build_my_robot_interfaces_egg
+[0.626s] [  5%] [32mBuilding C object CMakeFiles/my_robot_interfaces__rosidl_generator_c.dir/rosidl_generator_c/my_robot_interfaces/msg/detail/pose_command__functions.c.o[0m
+[0.626s] [  7%] [32mBuilding C object CMakeFiles/my_robot_interfaces__rosidl_generator_c.dir/rosidl_generator_c/my_robot_interfaces/srv/detail/get_current_pose__functions.c.o[0m
+[0.626s] [  9%] [32mBuilding C object CMakeFiles/my_robot_interfaces__rosidl_generator_c.dir/rosidl_generator_c/my_robot_interfaces/srv/detail/do_homing__functions.c.o[0m
+[0.626s] [ 10%] [32mBuilding C object CMakeFiles/my_robot_interfaces__rosidl_generator_c.dir/rosidl_generator_c/my_robot_interfaces/srv/detail/do_calibration__functions.c.o[0m
+[0.629s] [ 10%] Built target my_robot_interfaces__cpp
+[0.633s] [ 12%] [34m[1mGenerating C++ type support for eProsima Fast-RTPS[0m
+[0.634s] [ 14%] [34m[1mGenerating C++ type support dispatch for ROS interfaces[0m
+[0.635s] [ 16%] [34m[1mGenerating C++ introspection for ROS interfaces[0m
+[0.675s] [ 18%] [32m[1mLinking C shared library libmy_robot_interfaces__rosidl_generator_c.so[0m
+[0.700s] [ 18%] Built target my_robot_interfaces__rosidl_generator_c
+[0.706s] [ 21%] [34m[1mGenerating C type support for eProsima Fast-RTPS[0m
+[0.706s] [ 21%] [34m[1mGenerating C introspection for ROS interfaces[0m
+[0.706s] [ 23%] [34m[1mGenerating C type support dispatch for ROS interfaces[0m
+[0.893s] [ 25%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/my_robot_interfaces/msg/pose_command__type_support.cpp.o[0m
+[0.893s] [ 27%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/my_robot_interfaces/srv/get_current_pose__type_support.cpp.o[0m
+[0.893s] [ 29%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/my_robot_interfaces/srv/do_homing__type_support.cpp.o[0m
+[0.893s] [ 30%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/my_robot_interfaces/srv/do_calibration__type_support.cpp.o[0m
+[0.919s] [ 32%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/my_robot_interfaces/srv/detail/do_calibration__type_support.cpp.o[0m
+[0.920s] [ 34%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/my_robot_interfaces/msg/detail/pose_command__type_support.cpp.o[0m
+[0.920s] [ 36%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/my_robot_interfaces/srv/detail/get_current_pose__type_support.cpp.o[0m
+[0.920s] [ 38%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/my_robot_interfaces/srv/detail/do_homing__type_support.cpp.o[0m
+[0.965s] [ 40%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/my_robot_interfaces/srv/detail/dds_fastrtps/do_homing__type_support.cpp.o[0m
+[0.965s] [ 41%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/my_robot_interfaces/srv/detail/dds_fastrtps/do_calibration__type_support.cpp.o[0m
+[0.965s] [ 43%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/my_robot_interfaces/msg/detail/dds_fastrtps/pose_command__type_support.cpp.o[0m
+[0.966s] [ 45%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_fastrtps_cpp.dir/rosidl_typesupport_fastrtps_cpp/my_robot_interfaces/srv/detail/dds_fastrtps/get_current_pose__type_support.cpp.o[0m
+[0.973s] [ 49%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/my_robot_interfaces/msg/pose_command__type_support.cpp.o[0m
+[0.973s] [ 49%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/my_robot_interfaces/srv/do_homing__type_support.cpp.o[0m
+[0.973s] [ 50%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/my_robot_interfaces/srv/get_current_pose__type_support.cpp.o[0m
+[0.973s] [ 52%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_c.dir/rosidl_typesupport_c/my_robot_interfaces/srv/do_calibration__type_support.cpp.o[0m
+[0.998s] [ 54%] [32m[1mLinking CXX shared library libmy_robot_interfaces__rosidl_typesupport_c.so[0m
+[1.005s] [ 56%] [32mBuilding C object CMakeFiles/my_robot_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/my_robot_interfaces/srv/detail/get_current_pose__type_support.c.o[0m
+[1.005s] [ 58%] [32mBuilding C object CMakeFiles/my_robot_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/my_robot_interfaces/msg/detail/pose_command__type_support.c.o[0m
+[1.005s] [ 60%] [32mBuilding C object CMakeFiles/my_robot_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/my_robot_interfaces/srv/detail/do_calibration__type_support.c.o[0m
+[1.005s] [ 61%] [32mBuilding C object CMakeFiles/my_robot_interfaces__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/my_robot_interfaces/srv/detail/do_homing__type_support.c.o[0m
+[1.027s] [ 61%] Built target my_robot_interfaces__rosidl_typesupport_c
+[1.034s] [ 63%] [32m[1mLinking C shared library libmy_robot_interfaces__rosidl_typesupport_introspection_c.so[0m
+[1.048s] [ 63%] Built target my_robot_interfaces__rosidl_typesupport_introspection_c
+[1.143s] [ 65%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/my_robot_interfaces/msg/detail/pose_command__type_support_c.cpp.o[0m
+[1.145s] [ 70%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/my_robot_interfaces/srv/detail/get_current_pose__type_support_c.cpp.o[0m
+[1.145s] [ 70%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/my_robot_interfaces/srv/detail/do_homing__type_support_c.cpp.o[0m
+[1.145s] [ 70%] [32mBuilding CXX object CMakeFiles/my_robot_interfaces__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/my_robot_interfaces/srv/detail/do_calibration__type_support_c.cpp.o[0m
+[1.210s] [ 72%] [32m[1mLinking CXX shared library libmy_robot_interfaces__rosidl_typesupport_cpp.so[0m
+[1.234s] [ 72%] Built target my_robot_interfaces__rosidl_typesupport_cpp
+[1.315s] [ 74%] [32m[1mLinking CXX shared library libmy_robot_interfaces__rosidl_typesupport_introspection_cpp.so[0m
+[1.358s] [ 74%] Built target my_robot_interfaces__rosidl_typesupport_introspection_cpp
+[1.389s] [ 76%] [32m[1mLinking CXX shared library libmy_robot_interfaces__rosidl_typesupport_fastrtps_c.so[0m
+[1.397s] [ 78%] [32m[1mLinking CXX shared library libmy_robot_interfaces__rosidl_typesupport_fastrtps_cpp.so[0m
+[1.441s] [ 78%] Built target my_robot_interfaces__rosidl_typesupport_fastrtps_c
+[1.445s] [ 78%] Built target my_robot_interfaces__rosidl_typesupport_fastrtps_cpp
+[1.457s] [ 78%] Built target my_robot_interfaces
+[1.472s] [ 80%] [34m[1mGenerating Python code for ROS interfaces[0m
+[2.026s] [ 80%] Built target my_robot_interfaces__py
+[2.038s] [ 81%] [32mBuilding C object CMakeFiles/my_robot_interfaces__rosidl_generator_py.dir/rosidl_generator_py/my_robot_interfaces/srv/_do_homing_s.c.o[0m
+[2.038s] [ 83%] [32mBuilding C object CMakeFiles/my_robot_interfaces__rosidl_generator_py.dir/rosidl_generator_py/my_robot_interfaces/msg/_pose_command_s.c.o[0m
+[2.039s] [ 85%] [32mBuilding C object CMakeFiles/my_robot_interfaces__rosidl_generator_py.dir/rosidl_generator_py/my_robot_interfaces/srv/_get_current_pose_s.c.o[0m
+[2.039s] [ 87%] [32mBuilding C object CMakeFiles/my_robot_interfaces__rosidl_generator_py.dir/rosidl_generator_py/my_robot_interfaces/srv/_do_calibration_s.c.o[0m
+[2.117s] [ 89%] [32m[1mLinking C shared library rosidl_generator_py/my_robot_interfaces/libmy_robot_interfaces__rosidl_generator_py.so[0m
+[2.149s] [ 89%] Built target my_robot_interfaces__rosidl_generator_py
+[2.166s] [ 90%] [32mBuilding C object CMakeFiles/my_robot_interfaces__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_generator_py/my_robot_interfaces/_my_robot_interfaces_s.ep.rosidl_typesupport_fastrtps_c.c.o[0m
+[2.166s] [ 92%] [32mBuilding C object CMakeFiles/my_robot_interfaces__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/my_robot_interfaces/_my_robot_interfaces_s.ep.rosidl_typesupport_c.c.o[0m
+[2.166s] [ 94%] [32mBuilding C object CMakeFiles/my_robot_interfaces__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/my_robot_interfaces/_my_robot_interfaces_s.ep.rosidl_typesupport_introspection_c.c.o[0m
+[2.244s] [ 96%] [32m[1mLinking C shared library rosidl_generator_py/my_robot_interfaces/my_robot_interfaces_s__rosidl_typesupport_fastrtps_c.cpython-310-x86_64-linux-gnu.so[0m
+[2.244s] [100%] [32m[1mLinking C shared library rosidl_generator_py/my_robot_interfaces/my_robot_interfaces_s__rosidl_typesupport_introspection_c.cpython-310-x86_64-linux-gnu.so[0m
+[2.245s] [100%] [32m[1mLinking C shared library rosidl_generator_py/my_robot_interfaces/my_robot_interfaces_s__rosidl_typesupport_c.cpython-310-x86_64-linux-gnu.so[0m
+[2.266s] [100%] Built target my_robot_interfaces__rosidl_typesupport_c__pyext
+[2.266s] [100%] Built target my_robot_interfaces__rosidl_typesupport_introspection_c__pyext
+[2.266s] [100%] Built target my_robot_interfaces__rosidl_typesupport_fastrtps_c__pyext

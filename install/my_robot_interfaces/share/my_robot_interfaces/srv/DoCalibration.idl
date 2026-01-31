@@ -1,0 +1,17 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from my_robot_interfaces/srv/DoCalibration.srv
+// generated code does not contain a copyright notice
+
+
+module my_robot_interfaces {
+  module srv {
+    struct DoCalibration_Request {
+      double step_size;
+    };
+    struct DoCalibration_Response {
+      boolean success;
+
+      string message;
+    };
+  };
+};

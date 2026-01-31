@@ -38,3 +38,9 @@ joint_limits:
     max_velocity: 8.2379999999999995
     has_acceleration_limits: true
     max_acceleration: 1.0
+
+  rotary_table_to_drill_bit:
+    has_velocity_limits: true
+    max_velocity: 6.6497044500983957
+    has_acceleration_limits: true
+    max_acceleration: 1.0

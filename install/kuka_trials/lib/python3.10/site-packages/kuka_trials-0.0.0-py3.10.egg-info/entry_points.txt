@@ -1,0 +1,3 @@
+[console_scripts]
+rotary_pointcloud_node = node.pointcloud_builder:main
+

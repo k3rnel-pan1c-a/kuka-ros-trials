@@ -1,0 +1,10 @@
+# Default initial positions for kuka_kr10r1420's ros2_control fake system
+# These positions provide a stable, upright configuration
+
+initial_positions:
+  joint_a1: 0.0        # Base rotation - neutral
+  joint_a2: 0.0        # Shoulder - 90 degrees (more stable than -0.989)
+  joint_a3: 0.0        # Elbow - 90 degrees (counteracts shoulder)
+  joint_a4: 0.0        # Wrist 1 - neutral
+  joint_a5: 0.0        # Wrist 2 - neutral  
+  joint_a6: 0.0        # Wrist 3 - neutral

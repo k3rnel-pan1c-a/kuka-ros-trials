@@ -1,0 +1,35 @@
+running egg_info
+creating ../build/kuka_commander/kuka_commander.egg-info
+writing ../build/kuka_commander/kuka_commander.egg-info/PKG-INFO
+writing dependency_links to ../build/kuka_commander/kuka_commander.egg-info/dependency_links.txt
+writing entry points to ../build/kuka_commander/kuka_commander.egg-info/entry_points.txt
+writing requirements to ../build/kuka_commander/kuka_commander.egg-info/requires.txt
+writing top-level names to ../build/kuka_commander/kuka_commander.egg-info/top_level.txt
+writing manifest file '../build/kuka_commander/kuka_commander.egg-info/SOURCES.txt'
+reading manifest file '../build/kuka_commander/kuka_commander.egg-info/SOURCES.txt'
+writing manifest file '../build/kuka_commander/kuka_commander.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_commander/build
+creating /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_commander/build/lib
+creating /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_commander/build/lib/kuka_commander
+copying kuka_commander/__init__.py -> /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_commander/build/lib/kuka_commander
+copying kuka_commander/main.py -> /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_commander/build/lib/kuka_commander
+running install
+running install_lib
+creating /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_commander/lib/python3.10/site-packages/kuka_commander
+copying /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_commander/build/lib/kuka_commander/__init__.py -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_commander/lib/python3.10/site-packages/kuka_commander
+copying /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_commander/build/lib/kuka_commander/main.py -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_commander/lib/python3.10/site-packages/kuka_commander
+byte-compiling /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_commander/lib/python3.10/site-packages/kuka_commander/__init__.py to __init__.cpython-310.pyc
+byte-compiling /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_commander/lib/python3.10/site-packages/kuka_commander/main.py to main.cpython-310.pyc
+running install_data
+creating /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_commander/share/ament_index
+creating /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_commander/share/ament_index/resource_index
+creating /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_commander/share/ament_index/resource_index/packages
+copying resource/kuka_commander -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_commander/share/ament_index/resource_index/packages
+copying package.xml -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_commander/share/kuka_commander
+running install_egg_info
+Copying ../build/kuka_commander/kuka_commander.egg-info to /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_commander/lib/python3.10/site-packages/kuka_commander-0.0.0-py3.10.egg-info
+running install_scripts
+Installing commander script to /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_commander/lib/kuka_commander
+writing list of installed files to '/home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_commander/install.log'

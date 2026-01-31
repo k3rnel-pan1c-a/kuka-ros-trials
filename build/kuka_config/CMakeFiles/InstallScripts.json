@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_config/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

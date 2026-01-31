@@ -1,0 +1,3 @@
+[console_scripts]
+commander = kuka_commander.main:main
+

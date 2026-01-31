@@ -1,0 +1,78 @@
+[0.600s] Invoking command in '/home/cortex/kuka_ws/src/kuka-ros-trials/kuka_trials': PYTHONPATH=/home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_trials/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/kuka_trials build --build-base /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_trials/build install --record /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_trials/install.log --single-version-externally-managed install_data
+[0.760s] running egg_info
+[0.760s] creating ../build/kuka_trials/kuka_trials.egg-info
+[0.760s] writing ../build/kuka_trials/kuka_trials.egg-info/PKG-INFO
+[0.760s] writing dependency_links to ../build/kuka_trials/kuka_trials.egg-info/dependency_links.txt
+[0.761s] writing entry points to ../build/kuka_trials/kuka_trials.egg-info/entry_points.txt
+[0.761s] writing requirements to ../build/kuka_trials/kuka_trials.egg-info/requires.txt
+[0.761s] writing top-level names to ../build/kuka_trials/kuka_trials.egg-info/top_level.txt
+[0.761s] writing manifest file '../build/kuka_trials/kuka_trials.egg-info/SOURCES.txt'
+[0.762s] reading manifest file '../build/kuka_trials/kuka_trials.egg-info/SOURCES.txt'
+[0.762s] writing manifest file '../build/kuka_trials/kuka_trials.egg-info/SOURCES.txt'
+[0.762s] running build
+[0.762s] running build_py
+[0.762s] creating /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_trials/build
+[0.763s] creating /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_trials/build/lib
+[0.763s] creating /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_trials/build/lib/node
+[0.763s] copying node/pointcloud_builder.py -> /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_trials/build/lib/node
+[0.763s] copying node/__init__.py -> /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_trials/build/lib/node
+[0.763s] creating /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_trials/build/lib/kuka_trials
+[0.763s] copying kuka_trials/__init__.py -> /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_trials/build/lib/kuka_trials
+[0.763s] running install
+[0.763s] running install_lib
+[0.764s] creating /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/lib/python3.10/site-packages/node
+[0.764s] copying /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_trials/build/lib/node/pointcloud_builder.py -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/lib/python3.10/site-packages/node
+[0.764s] copying /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_trials/build/lib/node/__init__.py -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/lib/python3.10/site-packages/node
+[0.764s] creating /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/lib/python3.10/site-packages/kuka_trials
+[0.764s] copying /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_trials/build/lib/kuka_trials/__init__.py -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/lib/python3.10/site-packages/kuka_trials
+[0.764s] byte-compiling /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/lib/python3.10/site-packages/node/pointcloud_builder.py to pointcloud_builder.cpython-310.pyc
+[0.765s] byte-compiling /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/lib/python3.10/site-packages/node/__init__.py to __init__.cpython-310.pyc
+[0.765s] byte-compiling /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/lib/python3.10/site-packages/kuka_trials/__init__.py to __init__.cpython-310.pyc
+[0.765s] running install_data
+[0.765s] creating /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/ament_index
+[0.765s] creating /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/ament_index/resource_index
+[0.765s] creating /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/ament_index/resource_index/packages
+[0.765s] copying resource/kuka_trials -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/ament_index/resource_index/packages
+[0.765s] copying package.xml -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials
+[0.765s] creating /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/launch
+[0.765s] copying launch/gazebo.launch.py -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/launch
+[0.765s] copying launch/drillbit_robot_rviz.launch.py -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/launch
+[0.766s] copying launch/display.launch.py -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/launch
+[0.766s] creating /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/urdf
+[0.766s] copying urdf/common_colours.xacro -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/urdf
+[0.766s] copying urdf/kr10r1420_macro.xacro -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/urdf
+[0.766s] copying urdf/robot.xacro -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/urdf
+[0.766s] copying urdf/drill_bit.urdf.xacro -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/urdf
+[0.766s] copying urdf/lidar.xacro -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/urdf
+[0.766s] copying urdf/scancontrol_26x0_29x0_25.xacro -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/urdf
+[0.766s] copying urdf/common_materials.xacro -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/urdf
+[0.766s] copying urdf/kr10r1420.xacro -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/urdf
+[0.766s] copying urdf/common_constants.xacro -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/urdf
+[0.766s] creating /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/rviz
+[0.766s] copying rviz/display_config.rviz -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/rviz
+[0.766s] creating /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/meshes
+[0.766s] copying meshes/link_6_c.stl -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/meshes
+[0.766s] copying meshes/base_link_c.stl -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/meshes
+[0.766s] copying meshes/link_3_c.stl -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/meshes
+[0.766s] copying meshes/link_4_v.stl -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/meshes
+[0.766s] copying meshes/link_4_c.stl -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/meshes
+[0.766s] copying meshes/link_3_v.stl -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/meshes
+[0.766s] copying meshes/Bit.dae -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/meshes
+[0.773s] copying meshes/link_6_v.stl -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/meshes
+[0.773s] copying meshes/link_5_c.stl -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/meshes
+[0.773s] copying meshes/visual.dae -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/meshes
+[0.773s] copying meshes/link_2_c.stl -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/meshes
+[0.773s] copying meshes/link_1_v.stl -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/meshes
+[0.774s] copying meshes/link_5_v.stl -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/meshes
+[0.774s] copying meshes/base_link_v.stl -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/meshes
+[0.775s] copying meshes/link_2_v.stl -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/meshes
+[0.776s] copying meshes/link_1_c.stl -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/meshes
+[0.776s] copying meshes/collision.stl -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/meshes
+[0.776s] creating /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/config
+[0.776s] copying config/ros_gz_bridge.yaml -> /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/share/kuka_trials/config
+[0.776s] running install_egg_info
+[0.777s] Copying ../build/kuka_trials/kuka_trials.egg-info to /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/lib/python3.10/site-packages/kuka_trials-0.0.0-py3.10.egg-info
+[0.777s] running install_scripts
+[0.791s] Installing rotary_pointcloud_node script to /home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/lib/kuka_trials
+[0.791s] writing list of installed files to '/home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_trials/install.log'
+[0.808s] Invoked command in '/home/cortex/kuka_ws/src/kuka-ros-trials/kuka_trials' returned '0': PYTHONPATH=/home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_trials/prefix_override:/usr/lib/python3/dist-packages/colcon_core/task/python/colcon_distutils_commands:/home/cortex/kuka_ws/src/kuka-ros-trials/install/kuka_trials/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 -W ignore:setup.py install is deprecated -W ignore:easy_install command is deprecated setup.py egg_info --egg-base ../build/kuka_trials build --build-base /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_trials/build install --record /home/cortex/kuka_ws/src/kuka-ros-trials/build/kuka_trials/install.log --single-version-externally-managed install_data

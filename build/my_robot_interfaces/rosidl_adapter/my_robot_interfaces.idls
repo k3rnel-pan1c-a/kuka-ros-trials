@@ -1,0 +1,4 @@
+/home/cortex/kuka_ws/src/kuka-ros-trials/build/my_robot_interfaces/rosidl_adapter/my_robot_interfaces:msg/PoseCommand.idl
+/home/cortex/kuka_ws/src/kuka-ros-trials/build/my_robot_interfaces/rosidl_adapter/my_robot_interfaces:srv/GetCurrentPose.idl
+/home/cortex/kuka_ws/src/kuka-ros-trials/build/my_robot_interfaces/rosidl_adapter/my_robot_interfaces:srv/DoHoming.idl
+/home/cortex/kuka_ws/src/kuka-ros-trials/build/my_robot_interfaces/rosidl_adapter/my_robot_interfaces:srv/DoCalibration.idl
