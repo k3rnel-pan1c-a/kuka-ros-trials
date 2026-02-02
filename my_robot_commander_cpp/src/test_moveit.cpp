@@ -1,5 +1,5 @@
 #include <rclcpp/rclcpp.hpp>
-#include <moveit/move_group_interface/move_group_interface.hpp>
+#include <moveit/move_group_interface/move_group_interface.h>
 #include <my_robot_interfaces/msg/pose_command.hpp>
 #include <my_robot_interfaces/srv/get_current_pose.hpp>
 #include <my_robot_interfaces/srv/do_homing.hpp>
