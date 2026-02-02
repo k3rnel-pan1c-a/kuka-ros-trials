@@ -30,7 +30,7 @@ class SimpleLaserToPointCloud(Node):
         self.home_tf = None  # store home pose transform
 
         # Frames
-        self.parent_frame = 'base_link'
+        self.parent_frame = 'rotary_table'
         self.scanner_frame = 'lp_link'
 
     # ---- TF utils ----
