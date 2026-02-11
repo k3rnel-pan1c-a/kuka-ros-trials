@@ -49,7 +49,7 @@ public:
     {
         arm_group_ = std::make_shared<MoveGroupInterface>(
             moveit_node_,
-            MoveGroupInterface::Options("arm_group", "robot_description", "")
+            MoveGroupInterface::Options("arm", "robot_description", "")
         );
 
         arm_group_->setMaxAccelerationScalingFactor(1.0);
@@ -219,9 +219,9 @@ private:
         try {
             RCLCPP_INFO(main_node_->get_logger(), 
                         "Homing service called - moving to home position [%.3f, %.3f, %.3f] with yaw: %.3f",
-                        -max_radius_, -max_radius_, max_z_, end_effector_yaw);
+                        max_radius_, 0.0, max_z_, end_effector_yaw);
             
-            bool success = goToPoseTarget(-max_radius_, -max_radius_, max_z_, 0, 0, end_effector_yaw, false);
+            bool success = goToPoseTarget(max_radius_, 0, max_z_, 0, 0, end_effector_yaw, false);
             
             response->success = success;
             
@@ -423,11 +423,12 @@ int main(int argc, char *argv[])
     double min_laser_range = 0.19;
 
     double max_height = 0.6;
-    double drill_bit_joint_z = 1.4; 
+    double drill_bit_joint_z = 0.3; 
+    double drill_bit_joint_x = 1.2;
     double max_z = drill_bit_joint_z + max_height / 2;
     double min_z = drill_bit_joint_z - max_height / 2;
 
-    double end_effector_yaw = M_PI / 4;
+    double end_effector_yaw = 0;
 
     auto commander = std::make_shared<Commander>(main_node, feedback_node, moveit_node, is_valid_range_flag, is_calibrating_flag,
                                                    max_radius + min_laser_range, end_effector_yaw, min_z, max_z);
