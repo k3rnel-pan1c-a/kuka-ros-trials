@@ -112,7 +112,12 @@ public:
 
             moveit_msgs::msg::RobotTrajectory trajectory;
             double fraction = arm_group_->computeCartesianPath(
-                waypoints, 0.01, trajectory);
+                waypoints,
+                0.01,      
+                0.0,       
+                trajectory,
+                true       
+            );
 
             if (fraction == 1.0) {
                 auto result = arm_group_->execute(trajectory);
