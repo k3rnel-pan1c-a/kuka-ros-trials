@@ -12,63 +12,12 @@ from ament_index_python.packages import get_package_share_path
 
 def generate_launch_description():
     package_path = get_package_share_path('my_robot_description')
-    # urdf_path = os.path.join(package_path, 'urdf', 'my_robot.urdf.xacro')
     package_parent = str(package_path.parent)
     ros_gz_bridge_config_path = os.path.join(package_path, 'config', 'ros_gz_bridge.yaml')
     set_gz_resource_path = SetEnvironmentVariable(
-    name='GZ_SIM_RESOURCE_PATH',
-    value=f"{package_parent}:{package_path}"
-    
+        name='GZ_SIM_RESOURCE_PATH',
+        value=f"{package_parent}:{package_path}"
     )
-    robot_description = Command([
-        FindExecutable(name='xacro'), ' ',
-        PathJoinSubstitution([
-            FindPackageShare('my_robot_description'),
-            'urdf',
-            'my_robot.xacro'
-        ])
-    ])
-
-    publish_robot_description = ExecuteProcess(
-        cmd=[
-            'bash', '-lc',
-            r"""python3 - <<'PY'
-    import os
-    import rclpy
-    from rclpy.node import Node
-    from rclpy.qos import QoSProfile, DurabilityPolicy, ReliabilityPolicy
-    from std_msgs.msg import String
-
-    urdf = os.environ.get("URDF", "")
-    if not urdf.strip():
-        raise RuntimeError("URDF env var is empty (xacro output missing)")
-
-    rclpy.init()
-    node = Node("robot_description_publisher")
-
-    qos = QoSProfile(depth=1)
-    qos.durability = DurabilityPolicy.TRANSIENT_LOCAL
-    qos.reliability = ReliabilityPolicy.RELIABLE
-
-    pub = node.create_publisher(String, "/robot_description", qos)
-    msg = String()
-    msg.data = urdf
-
-    for _ in range(8):
-        pub.publish(msg)
-        rclpy.spin_once(node, timeout_sec=0.2)
-
-    node.get_logger().info(f"Published /robot_description (len={len(urdf)})")
-    node.destroy_node()
-    rclpy.shutdown()
-    PY"""
-        ],
-        additional_env={'URDF': robot_description},
-        output='screen'
-    )
-
-
-
 
     pkg_share = FindPackageShare('my_robot_movit_config')
 
@@ -110,30 +59,26 @@ def generate_launch_description():
         parameters=[{'config_file': ros_gz_bridge_config_path}],
     )
 
-    #old ros2_control controllers
     # ros2_control controllers
-    # controllers_launch = IncludeLaunchDescription(
-    #     PythonLaunchDescriptionSource(
-    #         PathJoinSubstitution([
-    #             pkg_share, 'launch', 'spawn_controllers.launch.py'
-    #         ])
-    #     )
-    # )
 
-    #fix the switch timeout
-    spawn_controllers = Node( 
+    joint_state_broadcaster_controller = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=[
-            "joint_state_broadcaster",
-            "arm_controller",
-            "rotary_velocity_controller",
-            "--controller-manager", "/controller_manager",
-            "--controller-manager-timeout", "120",
-            "--switch-timeout", "120",
-            "--service-call-timeout", "120",
-        ],
-        output="screen",
+        arguments=["joint_state_broadcaster", "--switch-timeout", "10"],
+        output="screen"
+    )
+    arm_controller = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["arm_controller", "--switch-timeout", "10"],
+        output="screen"
+    )
+
+    rotary_velocity_controller = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["rotary_velocity_controller", "--switch-timeout", "10"],
+        output="screen"
     )
 
     # MoveIt move_group
@@ -157,23 +102,21 @@ def generate_launch_description():
 
     my_robot_commander_cpp = Node(
         package = 'my_robot_commander_cpp',
-        executable = 'test_moveit',
-        output='screen',
-        parameters=[
-        {'robot_description': robot_description},
-    ],)
+        executable = 'test_moveit'
+    )
+
 
     return LaunchDescription([
         SetParameter(name='use_sim_time', value=True),
         set_gz_resource_path,
-        publish_robot_description, 
         static_virtual_joints_launch,
         rsp_launch,
         gazebo_launch,
         spawn_entity,
         ros_gz_bridge,
-        #controllers_launch,
-        spawn_controllers,
+        joint_state_broadcaster_controller,
+        arm_controller,
+        rotary_velocity_controller,
         move_group_launch,
         rviz_launch,
         my_robot_commander_cpp
